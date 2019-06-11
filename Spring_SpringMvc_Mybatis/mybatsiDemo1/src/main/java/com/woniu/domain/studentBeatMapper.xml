@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="studentBeanMapper">
+    <!--    使用if拼接查询对象-->
+    <select id="findStudentBean" parameterType="StudentBean" resultType="StudentBean">
+        select * from student
+        <where>
+            <if test="s_id != 0">
+                and s_id=#{s_id}
+            </if>
+            <if test="s_name != null">
+                and s_name=#{s_name}
+            </if>
+            <if test="s_age != 0">
+                and s_age=#{s_age}
+            </if>
+        </where>
+    </select>
+    <!--    通过choose拼接语句 相当于 if  if else else -->
+    <select id="findStudentBean2" parameterType="StudentBean" resultType="StudentBean">
+        select * from student
+        <where>
+            <choose>
+                <when test="s_id != 0">
+                    and s_id=#{s_id}
+                </when>
+                <when test="s_name!=null">
+                    and s_name=#{s_name}
+                </when>
+                <otherwise>
+                    and 1=1
+                </otherwise>
+            </choose>
+        </where>
+    </select>
+    <update id="updateStuBean" parameterType="StudentBean">
+        update student
+        <set>
+            <if test="s_name">
+                s_name=#{s_name},
+            </if>
+            <if test="s_age!=0">
+                s_age=#{s_age},
+            </if>
+        </set>
+        where s_id=#{s_id}
+    </update>
+    <!--    批量添加数据-通过一条语句-->
+    <insert id="insertAll" parameterType="java.util.List">
+        insert into student(s_name, s_age) values
+        <foreach item="bean" index="index" separator="," collection="list">
+            (#{bean.s_name},#{bean.s_age})
+        </foreach>
+    </insert>
+    <!--    批量删除数据-->
+    <delete id="delAll" parameterType="java.util.List">
+        delete from student where s_id in
+        <foreach collection="list" item="bean" index="index" open="(" close=")" separator=",">
+            #{bean.s_id}
+        </foreach>
+    </delete>
+    <!--    动态加载学生 当调用课程信息和教室信息是加载出来 -->
+
+    <select id="findStuBeanById" parameterType="int" resultMap="map">
+        select *
+        from student
+        where s_id = #{s_id}
+    </select>
+
+    <select id="findStuBeanByScid" parameterType="int" resultMap="map">
+        select *
+        from student
+        where s_c_id = #{s.c_id}
+    </select>
+
+    <select id="findStudentByCouId" parameterType="int" resultMap="map2">
+        select *
+        from student stu
+                 join stu_cou as scu on scu.s_id = stu.s_id
+        where scu.cou_id = #{cou_id}
+
+    </select>
+    <resultMap id="map" type="StudentBean">
+        <id property="s_id" column="s_id"/>
+        <result property="s_name" column="s_name"/>
+        <result property="s_age" column="s_age/"/>
+        <!--        将外键传递过去-->
+        <association property="bean" javaType="ClassBean" select="ClaBeanMapper.findClaBeanById"
+                     column="s_c_id"/>
+        <!-- 查询课程,将自己的主键传递过去       -->
+        <collection property="list" ofType="CourseBean" select="courseBeanMapper.findCouByCSId"
+                    column="s_id"/>
+    </resultMap>
+
+    <resultMap id="map2" type="StudentBean">
+        <id property="s_id" column="s_id"/>
+        <result property="s_name" column="s_name"/>
+        <result property="s_age" column="s_age/"/>
+        <!--        将外键传递过去-->
+        <!--        <association property="bean" javaType="ClassBean" select="ClaBeanMapper.findClaBeanById"-->
+        <!--                     column="s_c_id"/>-->
+    </resultMap>
+
+</mapper>
+

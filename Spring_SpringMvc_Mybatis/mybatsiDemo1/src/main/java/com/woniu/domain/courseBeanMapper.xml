@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="courseBeanMapper">
+    <select id="findCouByCSId" resultType="int" resultMap="map">
+        select *
+        from course as cou
+                 join stu_cou as stc on cou.cou_id = stc.cou_id
+        where stc.s_id = #{id}
+    </select>
+    <!--    动态加载课程 ,动态加载学生信息-->
+    <select id="findCouById" resultType="int" resultMap="map">
+        select *
+        from course
+        where cou_id = #{cou_id}
+    </select>
+    <resultMap id="map" type="CourseBean">
+        <id property="cou_id" column="cou_id"/>
+        <result property="cou_name" column="cou_name"/>
+        <!--        查询学生信息,将课程的主键传递过去-->
+        <collection property="list" ofType="StudentBean"
+                    select="studentBeanMapper.findStudentByCouId" column="cou_id">
+        </collection>
+    </resultMap>
+</mapper>
+

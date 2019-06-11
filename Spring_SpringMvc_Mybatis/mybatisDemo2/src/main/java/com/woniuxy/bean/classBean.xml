@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.woniuxy.dao.IClass">
+<!--    将该mapeer文件中的查询语句放入二级缓存-->
+    <cache/>
+    <select id="findClaById" parameterType="int" resultMap="map">
+        select * from t_student join t_class on stu_cla_id = cla_id where cla_id=#{id}
+    </select>
+    <resultMap id="map" type="ClassBean">
+        <id property="id" column="cla_id"/>
+        <result property="name" column="cla_name"/>
+    </resultMap>
+</mapper>

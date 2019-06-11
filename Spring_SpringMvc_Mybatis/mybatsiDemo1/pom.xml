@@ -9,7 +9,8 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>mybatis</artifactId>
+    <artifactId>mybatisDemo1</artifactId>
+
     <dependencies>
         <!-- https://mvnrepository.com/artifact/org.mybatis/mybatis -->
         <dependency>
@@ -36,6 +37,7 @@
             <artifactId>log4j</artifactId>
             <version>1.2.17</version>
         </dependency>
+
     </dependencies>
     <build>
         <resources>

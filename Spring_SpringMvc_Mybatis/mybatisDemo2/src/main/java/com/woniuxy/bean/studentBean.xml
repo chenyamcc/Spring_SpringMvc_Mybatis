@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.woniuxy.dao.IStudent">
+    <cache/>
+    <select id="findStuById" parameterType="int" resultMap="map">
+        select *
+        from t_student
+        where stu_id = #{id}
+    </select>
+    <resultMap id="map" type="StudentBean">
+        <id property="id" column="stu_id"/>
+        <result property="name" column="stu_name"/>
+        <result property="age" column="stu_age"/>
+        <association property="classBean" javaType="ClassBean"
+                     select="com.woniuxy.dao.IClass.findClaById" column="stu_cla_id"/>
+    </resultMap>
+</mapper>

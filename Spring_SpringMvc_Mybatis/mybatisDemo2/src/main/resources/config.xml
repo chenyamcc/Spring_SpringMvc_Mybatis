@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <!--    引入数据库的信息-->
+    <properties resource="db.properties"/>
+    <settings>
+        <!--        开启懒加载-->
+        <setting name="lazyLoadingEnabled" value="true"/>
+        <!--        将积极加载变成消极加载-->
+        <setting name="aggressiveLazyLoading" value="false"/>
+        <!--        使用LOG4J 记录日志-->
+        <setting name="logImpl" value="LOG4J"/>
+    </settings>
+    <!--    将包中的类名做为别名-->
+    <typeAliases>
+        <package name="com.woniuxy.bean"/>
+    </typeAliases>
+    <!--    设置数据库的信息-->
+    <environments default="development">
+        <environment id="development">
+            <transactionManager type="JDBC"/>
+            <dataSource type="UNPOOLED">
+                <property name="driver" value="${driver}"/>
+                <property name="url" value="${url}"/>
+                <property name="username" value="${username}"/>
+                <property name="password" value="${password}"/>
+            </dataSource>
+        </environment>
+    </environments>
+    <mappers>
+        <mapper resource="com/woniuxy/bean/studentBean.xml"/>
+        <mapper resource="com/woniuxy/bean/courseBean.xml"/>
+        <mapper resource="com/woniuxy/bean/classBean.xml"/>
+    </mappers>
+</configuration>
