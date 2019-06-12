@@ -1,6 +1,7 @@
 package com.woniuxy.dao;
 
 import com.woniuxy.bean.StudentBean;
+import org.apache.ibatis.annotations.Insert;
 
 /**
  * @author chenyam
@@ -18,4 +19,7 @@ public interface IStudentDao {
     * @Date: 19/06/11 下午 8:34
     */
     StudentBean findStudentById(int id);
+
+    @Insert("insert into t_student(stu_name,stu_age) values(#{name},#{age})")
+    void addStudent(StudentBean student);
 }

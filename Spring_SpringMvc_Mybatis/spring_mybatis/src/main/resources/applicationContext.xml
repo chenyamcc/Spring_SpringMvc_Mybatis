@@ -3,12 +3,13 @@
        xmlns:context="http://www.springframework.org/schema/context"
        xmlns:aop="http://www.springframework.org/schema/aop"
        xmlns="http://www.springframework.org/schema/beans"
+       xmlns:tx="http://www.springframework.org/schema/tx"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans.xsd
         http://www.springframework.org/schema/context
         http://www.springframework.org/schema/context/spring-context.xsd
         http://www.springframework.org/schema/aop
-        http://www.springframework.org/schema/aop/spring-aop.xsd">
+        http://www.springframework.org/schema/aop/spring-aop.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
 
     <!--    引入数据库配置文件-->
     <context:property-placeholder location="classpath*:properties/db.properties"/>
@@ -36,8 +37,12 @@
         <property name="basePackage" value="com.woniuxy.dao"/>
     </bean>
     <!--    配置事务-->
-    <bean class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+    <bean id="transactionManager"
+          class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
         <property name="dataSource" ref="dataSource"/>
     </bean>
-    <aop:aspectj-autoproxy />
+    <!--    自动创建代理类-->
+    <aop:aspectj-autoproxy/>
+    <!--    配置事务标签扫描-->
+    <tx:annotation-driven />
 </beans>

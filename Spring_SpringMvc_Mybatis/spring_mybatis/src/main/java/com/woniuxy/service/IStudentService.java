@@ -18,4 +18,6 @@ public interface IStudentService {
     * @Date: 19/06/12 上午 10:09
     */
     StudentBean findStudentById(int id);
+
+    void addStudent(StudentBean student);
 }

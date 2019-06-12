@@ -24,4 +24,13 @@ public class StudentServiceImplTest {
         StudentBean bean = service.findStudentById(1);
         System.out.println(bean);
     }
+    @Test
+    public void addStudent(){
+        ApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
+        IStudentService service = (IStudentService) context.getBean("studentService");
+        StudentBean s1 = new StudentBean();
+        s1.setName("李强");
+        s1.setAge(20);
+        service.addStudent(s1);
+    }
 }

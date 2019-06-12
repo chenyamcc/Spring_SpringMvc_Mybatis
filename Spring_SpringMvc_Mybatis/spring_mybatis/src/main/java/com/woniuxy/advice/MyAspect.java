@@ -11,22 +11,21 @@ import org.springframework.stereotype.Component;
  * @author chenyam
  * @title: MyAspect
  * @projectName Spring_SpringMvc_Mybatis
- * @description:
+ * @description:通知类
  * @date 19/06/12 上午 9:20
  */
 @Aspect
-//这个注解必须要有,否则切面无法执行
-@Component
+@Component//这个注解必须要有,否则切面无法执行
 public class MyAspect {
-    @Before("execution(* com.woniuxy.service.impl.StudentServiceImpl.*(..))")
+//    @Before("execution(* com.woniuxy.service.impl.StudentServiceImpl.*(..))")
     public void before(){
         System.out.println("前置通知");
     }
-    @After("execution(* com.woniuxy.service.impl.StudentServiceImpl.*(..))")
+//    @After("execution(* com.woniuxy.service.impl.StudentServiceImpl.*(..))")
     public void after(){
         System.out.println("后置通知");
     }
-    @Around("execution(* com.woniuxy.service.impl.StudentServiceImpl.*(..))")
+//    @Around("execution(* com.woniuxy.service.impl.StudentServiceImpl.*(..))")
     public Object around(ProceedingJoinPoint point) {
         System.out.println("执行之前");
         Object o =null;

@@ -5,6 +5,7 @@ import com.woniuxy.dao.IStudentDao;
 import com.woniuxy.service.IStudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * @author chenyam
@@ -22,7 +23,12 @@ public class StudentServiceImpl implements IStudentService {
     }
 
     public StudentBean findStudentById(int id) {
-        StudentBean bean = dao.findStudentById(id);
-        return bean;
+        return dao.findStudentById(id);
+    }
+    @Transactional(rollbackFor = Exception.class)
+    public void addStudent(StudentBean student) {
+        dao.addStudent(student);
+//        System.out.println(1/0);
+        dao.addStudent(student);
     }
 }
