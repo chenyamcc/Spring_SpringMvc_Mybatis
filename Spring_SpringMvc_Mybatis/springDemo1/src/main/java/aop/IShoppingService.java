@@ -7,5 +7,6 @@ package aop;
  * @description: TODO
  * @date 19/06/11 下午 2:18
  */
-public class IShoppingService {
+public interface IShoppingService {
+    public void shopping();
 }

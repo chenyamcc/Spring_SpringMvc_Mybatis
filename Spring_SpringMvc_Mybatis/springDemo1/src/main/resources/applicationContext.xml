@@ -9,49 +9,75 @@
         http://www.springframework.org/schema/context/spring-context.xsd
         http://www.springframework.org/schema/aop
         http://www.springframework.org/schema/aop/spring-aop.xsd">
-    <bean id="welcome" class="impl.WelcomeImpl"/>
-<!--    scope :singleton将该对象设置为单例-->
-<!--    lazy-init 延迟初始化,该bean必须是单例的-->
-    <bean id="user" class="bean.User" scope="singleton" init-method="init" destroy-method="des"
-    lazy-init="true">
-        <property name="name" value="xiaoming"/>
-    </bean>
+<!--    <bean id="welcome" class="impl.WelcomeImpl"/>-->
+<!--    &lt;!&ndash;    scope :singleton将该对象设置为单例&ndash;&gt;-->
+<!--    &lt;!&ndash;    lazy-init 延迟初始化,该bean必须是单例的&ndash;&gt;-->
+<!--    <bean id="user" class="bean.User" scope="singleton" init-method="init" destroy-method="des"-->
+<!--          lazy-init="true">-->
+<!--        <property name="name" value="xiaoming"/>-->
+<!--    </bean>-->
 
-    <bean id="grade1" class="bean.Grade">
-        <property name="id" value="1"/>
-        <property name="course" value="java"/>
-        <property name="num" value="90"/>
+<!--    <bean id="grade1" class="bean.Grade">-->
+<!--        <property name="id" value="1"/>-->
+<!--        <property name="course" value="java"/>-->
+<!--        <property name="num" value="90"/>-->
+<!--    </bean>-->
+<!--    <bean id="grade2" class="bean.Grade">-->
+<!--        <property name="id" value="2"/>-->
+<!--        <property name="course" value="mysql"/>-->
+<!--        <property name="num" value="95"/>-->
+<!--    </bean>-->
+<!--    <bean id="student" class="bean.Student">-->
+<!--        <property name="id" value="1"/>-->
+<!--        <property name="name" value="小明"/>-->
+<!--        <property name="nums">-->
+<!--            <list value-type="java.lang.String">-->
+<!--                <value>ll</value>-->
+<!--                <value>bb</value>-->
+<!--            </list>-->
+<!--        </property>-->
+<!--        <property name="grades">-->
+<!--            <list value-type="bean.Grade">-->
+<!--                <ref bean="grade1"/>-->
+<!--                <ref bean="grade2"/>-->
+<!--            </list>-->
+<!--        </property>-->
+<!--        <property name="address">-->
+<!--            <map key-type="java.lang.String" value-type="java.lang.String">-->
+<!--                <entry key="aa" value="ddd"/>-->
+<!--                <entry key="aaa" value="ssss"/>-->
+<!--            </map>-->
+<!--        </property>-->
+<!--        <property name="gradeMap">-->
+<!--            <map key-type="java.lang.String" value-type="bean.Grade">-->
+<!--                <entry key="aaa" value-ref="grade1"/>-->
+<!--            </map>-->
+<!--        </property>-->
+<!--    </bean>-->
+    <bean id="shoppingService" class="aop.impl.ShoppingServiceimpl"/>
+    <!--    设置通知-->
+    <bean id="myBeforeAdvice" class="advice.MybeforeAdvice"/>
+    <bean id="myAfterAdvice" class="advice.MyafterAdvice"/>
+    <bean id="mySurroundAdvice" class="advice.MySurroundAdvice"/>
+    <!--   设置顾问 -->
+    <bean id="myBeforeAdvisor"
+          class="org.springframework.aop.support.RegexpMethodPointcutAdvisor">
+        <property name="advice" ref="myBeforeAdvice"/>
+        <property name="pattern" value=".*s.*"/>
     </bean>
-    <bean id="grade2" class="bean.Grade">
-        <property name="id" value="2"/>
-        <property name="course" value="mysql"/>
-        <property name="num" value="95"/>
+    <bean id="myAfterAdvisor"
+          class="org.springframework.aop.support.NameMatchMethodPointcutAdvisor">
+        <property name="advice" ref="myAfterAdvice"/>
+        <property name="mappedName" value="shopping"/>
     </bean>
-    <bean id="student" class="bean.Student">
-        <property name="id" value="1"/>
-        <property name="name" value="小明"/>
-        <property name="nums">
-            <list value-type="java.lang.String">
-                <value>ll</value>
-                <value>bb</value>
-            </list>
-        </property>
-        <property name="grades">
-            <list value-type="bean.Grade">
-                <ref bean="grade1"/>
-                <ref bean="grade2"/>
-            </list>
-        </property>
-        <property name="address">
-            <map key-type="java.lang.String" value-type="java.lang.String">
-                <entry key="aa" value="ddd"/>
-                <entry key="aaa" value="ssss"/>
-            </map>
-        </property>
-        <property name="gradeMap">
-            <map key-type="java.lang.String" value-type="bean.Grade">
-                <entry key="aaa" value-ref="grade1"/>
-            </map>
-        </property>
+    <bean id="mySurroundAdvisor"
+                 class="org.springframework.aop.support.RegexpMethodPointcutAdvisor">
+    <property name="advice" ref="mySurroundAdvice"/>
+    <property name="pattern" value=".*s.*"/>
+</bean>
+    <!--   自动生成代理类-->
+    <bean class="org.springframework.aop.framework.autoproxy.BeanNameAutoProxyCreator">
+        <property name="beanNames" value="shoppingService"/>
+        <property name="interceptorNames" value="myBeforeAdvisor,myAfterAdvisor,mySurroundAdvisor"/>
     </bean>
 </beans>

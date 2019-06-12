@@ -13,6 +13,7 @@
         <module>mybatsiDemo1</module>
         <module>mybatisDemo2</module>
         <module>springDemo1</module>
+        <module>spring_mybatis</module>
     </modules>
 
 
